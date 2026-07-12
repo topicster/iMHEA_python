@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite both the software and the data paper below."
+title: "imhea: processing of iMHEA hydrometeorological data"
+version: 1.0.0
+date-released: 2026-07-11
+authors:
+  - family-names: Ochoa-Tocachi
+    given-names: Boris F.
+license: MIT
+keywords: [hydrology, Andes, paired catchments, rainfall, streamflow, iMHEA]
+preferred-citation:
+  type: article
+  title: "High-resolution hydrometeorological data from a network of headwater catchments in the tropical Andes"
+  authors:
+    - family-names: Ochoa-Tocachi
+      given-names: Boris F.
+  journal: "Scientific Data"
+  volume: 5
+  year: 2018
+  doi: 10.1038/sdata.2018.80

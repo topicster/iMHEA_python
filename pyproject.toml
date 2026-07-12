@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "imhea"
+version = "0.7.0"
+description = "Processing of iMHEA hydrometeorological data (rainfall & streamflow) — Python translation of the iMHEA MATLAB scripts"
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "Boris Ochoa Tocachi" }]
+requires-python = ">=3.10"
+dependencies = [
+    "numpy>=1.24",
+    "pandas>=2.0",
+    "scipy>=1.10",
+]
+
+[project.optional-dependencies]
+plots = ["matplotlib>=3.7"]
+gui = ["matplotlib>=3.7", "PySide6>=6.5"]
+dev = ["pytest>=7"]
+build = ["matplotlib>=3.7", "PySide6>=6.5", "pyinstaller>=6.0"]
+
+[project.scripts]
+imhea = "imhea.cli:main"
+
+[project.gui-scripts]
+imhea-gui = "imhea_gui.app:main"
+
+[tool.setuptools.packages.find]
+where = ["src", "gui"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
