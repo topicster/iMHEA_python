@@ -45,7 +45,10 @@ def read_raw_csv(path) -> pd.DataFrame:
 
     dates = pd.to_datetime(df[date_col], format="%d/%m/%Y %H:%M:%S",
                            errors="raise")
-    out = pd.DataFrame(index=pd.DatetimeIndex(dates, name="date"))
+    idx = pd.DatetimeIndex(dates, name="date")
+    if idx.dtype != "datetime64[ns]":
+        idx = idx.as_unit("ns")            # pandas >= 3.0 defaults to [us]
+    out = pd.DataFrame(index=idx)
     for c in num_cols:
         out[c] = pd.to_numeric(df[c], errors="coerce").to_numpy(float)
     out["flag"] = (df[flag_cols[0]].fillna("").astype(str).str.strip()
@@ -62,7 +65,10 @@ def read_processed_csv(path) -> pd.DataFrame:
     df = pd.read_csv(path, encoding="utf-8-sig", skipinitialspace=True)
     date_col = df.columns[0]
     df[date_col] = pd.to_datetime(df[date_col], format="%d/%m/%Y %H:%M:%S")
-    return df.set_index(date_col)
+    out = df.set_index(date_col)
+    if out.index.dtype != "datetime64[ns]":
+        out.index = out.index.as_unit("ns")
+    return out
 
 
 # ---------------------------------------------------------------------------

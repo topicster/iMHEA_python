@@ -26,10 +26,17 @@ SHIFT_MS = 250
 
 
 def to_datetime_index(dates) -> pd.DatetimeIndex:
-    """Coerce any datetime-like sequence to a pandas DatetimeIndex (ns)."""
+    """Coerce any datetime-like sequence to a pandas DatetimeIndex (ns).
+
+    The nanosecond normalisation matters: pandas >= 3.0 defaults to
+    microsecond resolution, and all integer-timestamp arithmetic in this
+    package (``.asi8``) assumes nanoseconds.
+    """
     idx = pd.DatetimeIndex(dates)
     if idx.tz is not None:
         idx = idx.tz_localize(None)
+    if idx.dtype != "datetime64[ns]":
+        idx = idx.as_unit("ns")
     return idx
 
 

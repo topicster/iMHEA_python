@@ -20,6 +20,23 @@ def test_datenum_roundtrip():
     assert (mtime.from_datenum(mtime.datenum(d)) == d).all()
 
 
+def test_non_nanosecond_index_resolution():
+    """pandas >= 3.0 defaults DatetimeIndex to microsecond resolution;
+    all integer-timestamp arithmetic must still see nanoseconds."""
+    d_ns = ts("2001-05-24 00:41:23")
+    for unit in ("us", "ms", "s"):
+        d_u = d_ns.as_unit(unit)
+        assert mtime.epoch_ms(d_u)[0] == mtime.epoch_ms(d_ns)[0]
+        assert mtime.interval_index(d_u, 5)[0] == \
+            mtime.interval_index(d_ns, 5)[0]
+    # end-to-end: aggregation on a us-resolution index
+    d = pd.date_range("2020-01-01 00:01", periods=4, freq="2min")
+    r_ns = aggregate(d, [0.2] * 4, 5)
+    r_us = aggregate(d.as_unit("us"), [0.2] * 4, 5)
+    assert (r_ns.dates == r_us.dates).all()
+    assert np.allclose(np.nan_to_num(r_ns.p), np.nan_to_num(r_us.p))
+
+
 def test_interval_index_right_closed():
     # a stamp exactly on a 5-min boundary belongs to the bin ending there
     d = ts("2020-01-01 00:05:00", "2020-01-01 00:05:01",

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "imhea"
-version = "0.7.0"
+version = "1.0.0"
 description = "Processing of iMHEA hydrometeorological data (rainfall & streamflow) — Python translation of the iMHEA MATLAB scripts"
 readme = "README.md"
 license = { text = "MIT" }

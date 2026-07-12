@@ -21,7 +21,7 @@ from .workflow import (PairResult, WorkflowResult, export_pair,
                        export_single, workflow, workflow_pair, workflow_rain)
 from . import registry
 
-__version__ = "0.7.0"
+__version__ = "1.0.0"
 
 __all__ = [
     "AggResult", "BaseflowResult", "CatchmentIndices", "FDCResult",
