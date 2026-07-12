@@ -7,6 +7,7 @@ on:
 
 jobs:
   test:
+    timeout-minutes: 30
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -30,13 +31,14 @@ jobs:
           - os: macos-latest        # Apple Silicon
             artifact: iMHEA-Data-Processor-macos-arm64
             path: "dist/iMHEA Data Processor.app"
-          - os: macos-13            # Intel
+          - os: macos-15-intel      # Intel (last x86_64 label, until Aug 2027)
             artifact: iMHEA-Data-Processor-macos-intel
             path: "dist/iMHEA Data Processor.app"
           - os: ubuntu-latest
             artifact: iMHEA-Data-Processor-linux
             path: dist/iMHEA-Data-Processor
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
